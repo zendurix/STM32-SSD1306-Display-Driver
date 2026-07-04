@@ -6,17 +6,7 @@
 #include "LD_4.h"
 #include "USER_button.h"
 #include "clock.h"
-#include "SSD1306/ssd1306.h"
-#include "SSD1306/clock_mode.h"
-#include "SSD1306/font_mode.h"
-#include "SSD1306/images_mode.h"
-
-// optional Flash memory usage to store and restore LD4 state and program state
-// #define USE_FLASH
-#ifdef USE_FLASH
-#include "flash_mem.h"
-static FlashMemPage flash_page;
-#endif // USE_FLASH
+#include "Display/display.h"
 
 /*
  SSD1306 128x32 OLED example usage:
@@ -45,100 +35,47 @@ static FlashMemPage flash_page;
 
  */
 
-typedef enum EProgramState {
-	ProgramState_Clock = 0, //
-	ProgramState_Text, //
-	ProgramState_Images,
-} EProgramState;
-
-EProgramState G_Program_state = ProgramState_Clock;
-
 #define TOGGLE_PROGRAM_MODE_PRESS_TIME 1000
-#define SHORT_PRESS_TIME 500
-#define BLINK_STEP 100
-#define BLINK_DEFAULT 1000
 
 int main(void) {
 	CLOCK_configure();
 
 	// 16Mhz base, 1ms interrupts
-	//SysTick_Config(16000000 / 1000);
+	SysTick_Config(16000000 / 1000);
 
 	// fast clock test
-	SysTick_Config(16000000 / 300000);
-
+	//SysTick_Config(16000000 / 300000);
 
 	LD4_configure();
 	USER_button_configure();
 
-	ClockHHMM clock_hh_mm;
-	ClockHHMM_init(&clock_hh_mm, 00, 00, G_Tick);
+	Display *display = Display_create(20, 12, 42, G_Tick);
+	if (!display) {
+		return 1;
+	}
 
-	FontMode font_mode;
-	FontMode_init(&font_mode);
-	char *msg1 = "Temp(A): 21,37C";
-	FontMode_add_string_to_text(&font_mode, msg1, 0, 0);
-	char *msg2 = "Temp(D): 21,22C";
-	FontMode_add_string_to_text(&font_mode, msg2, 0, 1);
-	char *msg3 = "mean: 20,10C";
-	FontMode_add_string_to_text(&font_mode, msg3, 0, 2);
-
-	Display display;
-	Display_initialize(&display);
-
-	bool set = false;
-
+	Display_set_hour_minute(display, 20, 37);
+	Display_add_string_to_text(display, "test msg 1", 0, 0);
+	Display_add_string_to_text(display, "test msg 2", 0, 1);
+	Display_add_string_to_text(display, "test msg 3", 0, 2);
+	Display_add_string_to_text(display, "test msg 4", 0, 3);
+	Display_add_string_to_text(display, "@", 15, 3);
 
 	while (true) {
 		USER_button_update();
-		ClockHHMM_update(&clock_hh_mm, G_Tick);
-
-		for (int i = 0; i < 1000; i ++)
-		{
-
-
-
-		}
-
 
 		if (G_USER_button_state == ButtonState_RELEASED) {
 			if (G_USER_button_time_pressed_ms > TOGGLE_PROGRAM_MODE_PRESS_TIME) {
-				G_Program_state++;
-				if (G_Program_state > 2) {
-					G_Program_state = 0;
-				}
-
-				clock_hh_mm.is_dirty = true;
-				font_mode.is_dirty = true;
-				set = false;
+				Display_switch_to_next_mode(display);
 			} else {
-				if (G_Program_state == ProgramState_Images) {
-					next_image(&display);
+				if (Display_get_mode(display) == DisplayMode_IMAGE) {
+					Display_switch_to_next_image(display);
 				} else {
-					toggle_display_on_off();
+					Display_toggle_on_off(display);
 				}
 			}
 		}
 
-		////////////////////////////////////////////////////////
-
-		switch (G_Program_state) {
-		case ProgramState_Clock: {
-			ClockHHMM_update_display(&clock_hh_mm, &display);
-			break;
-		}
-		case ProgramState_Text: {
-			FontMode_draw_text(&font_mode, &display);
-			break;
-		}
-
-		case ProgramState_Images: {
-			if (!set) {
-				draw_image(&display);
-				set = true;
-			}
-		}
-		} // switch end
-
+		Display_update(display, G_Tick);
 	}
 }

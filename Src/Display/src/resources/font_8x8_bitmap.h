@@ -1,5 +1,5 @@
-#ifndef SSD1306_FONT_8X8_BITMAP_H
-#define SSD1306_FONT_8X8_BITMAP_H
+#ifndef DISPLAY_SRC_RESOURCES_FONT_8X8_BITMAP_H
+#define DISPLAY_SRC_RESOURCES_FONT_8X8_BITMAP_H
 
 // Font taken from https://github.com/dhepper/font8x8/blob/master/font8x8_basic.h
 // Font format: each char is 8x8 - uint8_t[8] where each byte is bitmap of one row of 8x8 letter
@@ -135,4 +135,4 @@ const uint8_t font8x8_basic[128][8] = {
 		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }    // U+007F
 };
 
-#endif /* SSD1306_FONT_8X8_BITMAP_H */
+#endif /* DISPLAY_SRC_RESOURCES_FONT_8X8_BITMAP_H */

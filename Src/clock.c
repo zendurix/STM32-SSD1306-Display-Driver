@@ -2,8 +2,6 @@
 
 volatile uint32_t G_Tick = 0;
 
-
-
 void CLOCK_configure(void) {
 // APB prescaler - set to 000 - 1
 	RCC->CFGR &= ~(RCC_CFGR_PPRE);

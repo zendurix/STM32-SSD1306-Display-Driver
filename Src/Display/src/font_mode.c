@@ -1,6 +1,7 @@
 #include "font_mode.h"
 
-#include "font_8x8_bitmap.h"
+#include "ssd1306.h"
+#include "resources/font_8x8_bitmap.h"
 
 void FontMode_init(FontMode *font_mode) {
 	if (!font_mode) {
@@ -64,29 +65,31 @@ void FontMode_add_string_to_text(FontMode *font_mode, const char *msg,
 	font_mode->is_dirty = true;
 }
 
-void FontMode_draw_text(FontMode *font_mode, Display *display) {
+void FontMode_draw_text(FontMode *font_mode, SSD1306Display *display) {
 	if (!display || !font_mode || !font_mode->is_dirty) {
 		return;
 	}
 
-	Display_clear_buffer(display);
+	SSD1306Display_clear_buffer(display);
 	for (int row = 0; row < TEXT_ROWS; row++) {
 		for (int col = 0; col < TEXT_COLS; col++) {
-			add_char_to_buffer(display, font_mode->text[row][col], col, row);
+			FontMode_add_char_to_buffer(display, font_mode->text[row][col], col,
+					row);
 		}
 	}
 
-	Display_draw_buffer(display);
+	SSD1306Display_draw_buffer(display);
 	font_mode->is_dirty = false;
 }
 
-void add_char_to_buffer(Display *display, uint8_t character, uint8_t char_x,
-		uint8_t char_y) {
+void FontMode_add_char_to_buffer(SSD1306Display *display, uint8_t character,
+		uint8_t char_x, uint8_t char_y) {
 	if (!display || char_x >= TEXT_COLS || char_y >= TEXT_ROWS
 			|| character >= 128) {
 		return;
 	}
 
+	// offset (not used)
 	//int16_t x_offset = (char_x + 1) * 1 + CHAR_PIXEL_SIZE * char_x;
 	//int16_t y_offset = (char_y + 1) * 2 + CHAR_PIXEL_SIZE * char_y;
 
@@ -97,7 +100,8 @@ void add_char_to_buffer(Display *display, uint8_t character, uint8_t char_x,
 		for (uint8_t x = 0; x < 8; x++) {
 
 			if (font8x8_basic[character][y] & (1 << x)) {
-				Display_set_pixel(display, x + x_offset, y + y_offset, true);
+				SSD1306Display_set_pixel(display, x + x_offset, y + y_offset,
+				true);
 			}
 		}
 	}

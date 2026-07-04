@@ -15,10 +15,13 @@
  .	text can be written on screen as single characters with xy pos (where xy is letter tile pos x:0-15, y:0-3)  
  .	or as strings with starting pos xy, strings are written char by char into next tiles, and wrap to next line  
   
- 2 - Image Mode - Display shows 128x32 black and white images, that are stored on device flash memory. Images are stored  
+ 2 - Images Mode - Display shows 128x32 black and white images, that are stored on device flash memory. Images are stored  
  .	as uint8_t[512] bitmaps representing whole buffer of oled screen.  
  .	Images can be converted to this format with "\python_scripts\image_converter.py"  
   
  Pressing USER button (on board):  
  - short press (<1s) - toggle display ON/OFF, switch to next image in images mode  
  - long press (>1s) - switch to next Mode (0 -> 1 -> 2 -> 0 -> 1 ...)  
+ 
+ Uses 8x8 bitmap font from: https://github.com/dhepper/font8x8/blob/master/font8x8_basic.h  
+ 

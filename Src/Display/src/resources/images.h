@@ -1,5 +1,5 @@
-#ifndef SSD1306_IMAGES_H
-#define SSD1306_IMAGES_H
+#ifndef DISPLAY_SRC_RESOURCES_IMAGES_H
+#define DISPLAY_SRC_RESOURCES_IMAGES_H
 
 #include <stdint.h>
 
@@ -21,4 +21,4 @@ extern const uint8_t image_flowers[512];
 extern const uint8_t image_pizza[512];
 extern const uint8_t image_pixel_art_love[512];
 
-#endif /* SSD1306_IMAGES_H */
+#endif /* DISPLAY_SRC_RESOURCES_IMAGES_H */
