@@ -1,13 +1,13 @@
- SSD1306 128x32 OLED example usage:
- Board used - Nucleo STM32U031R8T6.
- 
- Connections: 
- OLED VCC -> Board 3V3
- OLED GND -> Board GND
- OLED SDA -> Board D14 (PB9 on processor)
- OLED SCL -> Board D15 (PB8 on processor)
- 
- This programs shows 3 modes of my own SSD1306 128x32 driver:
+ SSD1306 128x32 OLED example usage:  
+ Board used - Nucleo STM32U031R8T6.    
+   
+ Connections:   
+ OLED VCC -> Board 3V3  
+ OLED GND -> Board GND  
+ OLED SDA -> Board D14 (PB9 on processor)  
+ OLED SCL -> Board D15 (PB8 on processor)  
+   
+ This programs shows 3 modes of my own SSD1306 128x32 driver:  
  0 - Clock Mode - Display shows current time in HH:MM format. start time for now is hard coded 00::00,
  .	but can be later setup with additional buttons.
 
