@@ -1,6 +1,9 @@
  SSD1306 128x32 OLED example usage:
+ 
  Board used - Nucleo STM32U031R8T6.
+ 
  Connections:
+ 
  OLED VCC -> Board 3V3
  OLED GND -> Board GND
  OLED SDA -> Board D14 (PB9 on processor)
