@@ -43,9 +43,6 @@ static FlashMemPage flash_page;
  - short press (<1s) - toggle display ON/OFF, switch to next image in images mode
  - long press (>1s) - switch to next Mode (0 -> 1 -> 2 -> 0 -> 1 ...)
 
-
-
- optional Flash memory usage (uncomment // #define USE_FLASH above) - store LD4 and Program states between restarts.
  */
 
 typedef enum EProgramState {
