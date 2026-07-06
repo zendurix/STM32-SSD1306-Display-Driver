@@ -1,4 +1,4 @@
- SSD1306 128x32 OLED driver using I2C protocol with example app usage:  
+ SSD1306 128x32 OLED bare metal (no HAL) driver using I2C protocol with example app usage:  
  Board used - Nucleo STM32U031R8T6.    
    
  Connections:   
